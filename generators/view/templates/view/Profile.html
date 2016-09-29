@@ -1,0 +1,65 @@
+<div id="<%= modulenameLowerCase %>Profile" v-cloak>
+  <input type="hidden" id="<%= modulenameLowerCase %>Id" value="<%= typeof(id) !== 'undefined' ? id : '' %>"/>
+
+  <div class="col-md-4 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        System Info
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="createdAt" class="col-sm-4 control-label">创建时间</label>
+            <div class="col-sm-8">
+              <span id="createdAt">{{ renderSystemTime(createdAt) }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="createdUser" class="col-sm-4 control-label">创建用户</label>
+            <div class="col-sm-8">
+              <span id="createdUser">{{createdUser}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="updatedAt" class="col-sm-4 control-label">更新时间</label>
+            <div class="col-sm-8">
+              <span id="updatedAt">{{ renderSystemTime(updatedAt) }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="updatedUser" class="col-sm-4 control-label">更新用户</label>
+            <div class="col-sm-8">
+              <span id="updatedUser">{{updatedUser}}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Profile
+      </div>
+      <div class="panel-body">
+        <form>
+          <fieldset>
+            <div class="form-group">
+              <label for="xxx">XXX</label>
+              <input type="text" autofocus class="form-control required" id="xxx" name="xxx" v-model="xxx">
+            </div>
+          </fieldset>
+
+          <button class="btn btn-danger">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%%
+  block('moduleScript').append(
+    Loader('/public/build/<%= modulenameLowerCase %>Profile.min.js')
+      .js('/public/js/<%= modulenameLowerCase %>/<%= modulenameLowerCase %>Profile.js')
+      .done(assets, config.site_static_host)
+  )
+%%>

@@ -1,0 +1,9 @@
+{
+  "scripts": {
+  },
+  "dependencies": {
+    "qiniu": "^6.1.11"
+  },
+  "devDependencies": {
+  }
+}
