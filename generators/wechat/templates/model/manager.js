@@ -1,0 +1,142 @@
+var _ = require('lodash')
+var Promise = require('bluebird')
+var passport = require('passport')
+var WechatStrategy = require('passport-wechat')
+var wechat = require('wechat')
+var WechatAPI = require('wechat-api')
+
+var UserManager = require('../user/user-manager')
+var config = require('../../system/config-manager').getConfig()
+var redisClient = require('../../system/redis-manager').getRedisClient()
+
+module.exports = {
+  find: find,
+  createOrUpdate: createOrUpdate,
+  getWechatRouter: getWechatRouter,
+  getLatestToken: getLatestToken,
+  getMediaUrl: getMediaUrl
+}
+
+function find(openid) {
+  return UserManager.findOne({'wechat.openid': openid})
+}
+
+function createOrUpdate(userInfo) {
+  return find(userInfo.openid)
+    .then(function(user) {
+      if (!user) {
+        user = {
+          wechat: userInfo
+        }
+
+        return UserManager.create(user)
+      }
+
+      user.wechat = userInfo
+
+      return user.save()
+    })
+}
+
+/**
+ * All below code are for initializing wechat
+ */
+
+var appToken = config.wechat.appToken
+var appid = config.wechat.appId
+var appsecret = config.wechat.appSecret
+
+var wechatConfig = {
+  token: appToken,
+  appid: appid
+}
+
+passport.use(new WechatStrategy({
+  appID: appid,
+  appSecret: appsecret,
+  scope: 'snsapi_userinfo',
+  passReqToCallback: true,
+  getToken: getUserToken,
+  saveToken: setUserToken
+}, function(req, accessToken, refreshToken, profile, done) {
+  return createOrUpdate(profile)
+    .then(function(user) {
+      done(null, user.toObject())
+      return null
+    })
+    .catch(done)
+}))
+
+function getUserToken(openid, callback) {
+  redisClient.get('access_token:' + openid)
+   .then(function(userToken) {
+     callback(null, JSON.parse(userToken))
+     return null
+   })
+   .catch(callback)
+}
+
+function setUserToken(openid, token, callback) {
+  redisClient.set('access_token:' + openid, JSON.stringify(token))
+   .then(function(userToken) {
+     callback(null, userToken)
+     return null
+   })
+   .catch(callback)
+}
+
+var api = Promise.promisifyAll(
+  new WechatAPI(appid, appsecret, getGlobalToken, setGlobalToken)
+)
+api.registerTicketHandle(getTicket, saveTicket)
+
+function getGlobalToken(callback) {
+  redisClient.get('global_access_token')
+   .then(function(globalToken) {
+     callback(null, JSON.parse(globalToken))
+     return null
+   })
+   .catch(callback)
+}
+
+function setGlobalToken(token, callback) {
+  redisClient.set('global_access_token', JSON.stringify(token))
+   .then(function(globalToken) {
+     callback(null, globalToken)
+     return null
+   })
+   .catch(callback)
+}
+
+function getTicket(type, callback) {
+ redisClient.get('weixin_jsticket')
+   .then(function(ticket) {
+     callback(null, ticket)
+     return null
+   })
+   .catch(callback)
+}
+
+function saveTicket(type, _ticketToken, callback) {
+ redisClient.set('weixin_jsticket', JSON.stringify(_ticketToken))
+   .then(function(ticket) {
+     callback(null, ticket)
+     return null
+   })
+   .catch(callback)
+}
+
+function getWechatRouter(cb) {
+  return wechat(wechatConfig, cb)
+}
+
+function getLatestToken() {
+  return api.getLatestTokenAsync()
+}
+
+function getMediaUrl(mediaId) {
+  return getLatestToken()
+    .then(function(token) {
+      return `https://api.weixin.qq.com/cgi-bin/media/get?access_token=${token.accessToken}&media_id=${mediaId}`
+    })
+}

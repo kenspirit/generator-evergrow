@@ -30,7 +30,7 @@ module.exports = yeoman.Base.extend({
     config: function() {
       this.fs.copy(
         this.templatePath('config.js'),
-        this.destinationPath('config/pingpp/sample.js')
+        this.destinationPath('config/wechat/sample.js')
       )
     },
   }

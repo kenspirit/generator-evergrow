@@ -29,7 +29,7 @@ module.exports = yeoman.Base.extend({
     config: function() {
       this.fs.copy(
         this.templatePath('config.js'),
-        this.destinationPath('config/qn/development.js')
+        this.destinationPath('config/qn/sample.js')
       )
     },
     server: function() {

@@ -11,7 +11,7 @@ pingpp.setPrivateKeyPath(config.pingpp.privateKeyPath)
 var getRandomIntInclusive = require('../../system/util').getRandomIntInclusive
 var SettingManager = require('../setting/setting-manager')
 
-var paymentHistoryModel = require('./paymentHistory-model')
+var paymentModel = require('./payment-model')
 
 var readFile = Promise.promisify(fs.readFile)
 
@@ -133,8 +133,8 @@ function pay(channel, clientIP, userId, userName, durationInYear) {
         amount:    durationInYear * setting.membershipAnnualPrice * 100, // 单位为分
         client_ip: clientIP,
         currency:  'cny',
-        subject:   '浓缩书会员费',
-        body:      '浓缩书会员费',
+        subject:   '付款',
+        body:      '付款',
         extra:     extra
       }
 
@@ -142,14 +142,13 @@ function pay(channel, clientIP, userId, userName, durationInYear) {
     })
     .then(createCharge)
     .then(function(charge) {
-      return paymentHistoryModel.create({
+      return paymentModel.create({
         userId: userId,
         userName: userName,
         orderNo: charge.order_no,
         chargeId: charge.id,
         chargeObj: charge,
         channel: charge.channel,
-        paidMonth: durationInYear * 12,
         amount: charge.amount,
         amountSettle: 0
       })
@@ -159,39 +158,35 @@ function pay(channel, clientIP, userId, userName, durationInYear) {
 function saveChargeEvent(chargeEvent) {
   var chargeData = chargeEvent.data.object
 
-  return paymentHistoryModel.findOne({chargeId: chargeData.id})
-    .then(function(paymentHistory) {
-      if (!paymentHistory) {
+  return paymentModel.findOne({chargeId: chargeData.id})
+    .then(function(payment) {
+      if (!payment) {
         throw new Error('NO_CHARGE_HISTORY')
       }
 
       var userPaidTime = chargeData.time_paid * 1000
       var timePaid = moment(userPaidTime)
-      var timeExpire = moment(userPaidTime).add(paymentHistory.paidMonth / 12, 'y')
 
-      paymentHistory.chargeEventId = chargeEvent.id
-      paymentHistory.chargeEventObj = chargeEvent
-      paymentHistory.paidOn = timePaid.format('YYYY-MM-DD')
-      paymentHistory.expiredOn = timeExpire.format('YYYY-MM-DD')
-      paymentHistory.amountSettle = chargeData.amount_settle
+      payment.chargeEventId = chargeEvent.id
+      payment.chargeEventObj = chargeEvent
+      payment.paidOn = timePaid.format('YYYY-MM-DD')
+      payment.amountSettle = chargeData.amount_settle
 
-      return paymentHistory.save()
+      return payment.save()
     })
-    .then(function(paymentHistory) {
+    .then(function(payment) {
       return UserManager.update({
-        _id: paymentHistory.userId,
-        paidOn: paymentHistory.paidOn,
-        expiredOn: paymentHistory.expiredOn,
-        paidMonth: paymentHistory.paidMonth
+        _id: payment.userId,
+        paidOn: payment.paidOn
       })
     })
 }
 
 function isChargePaid(chargeId) {
-  return paymentHistoryModel.findOne({chargeId: chargeId})
+  return paymentModel.findOne({chargeId: chargeId})
     .sort({updatedAt: -1})
-    .then(function(paymentHistory) {
-      return !!paymentHistory.chargeEventId
+    .then(function(payment) {
+      return !!payment.chargeEventId
     })
 }
 

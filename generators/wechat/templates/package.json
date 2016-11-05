@@ -1,0 +1,13 @@
+{
+  "scripts": {
+  },
+  "dependencies": {
+    "passport-wechat": "^2.0.3",
+    "request": "^2.75.0",
+    "through2": "^2.0.1",
+    "wechat": "^2.0.3",
+    "wechat-api": "^1.28.1"
+  },
+  "devDependencies": {
+  }
+}

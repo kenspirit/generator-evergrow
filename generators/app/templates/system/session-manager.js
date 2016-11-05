@@ -14,7 +14,7 @@ function initSession(app) {
       host: config.base.redis.host,
       port: config.base.redis.port
     }),
-    secret: 'evergrow',
+    secret: config.base.sessionSecret,
     logErrors: logger.error.bind(logger)
   }))
 }

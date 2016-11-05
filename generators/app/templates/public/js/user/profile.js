@@ -97,7 +97,11 @@ function saveValue(url) {
   }
 }
 
-$('body').on('click', '[role=adduserthumbnail]', function(){
-  var uploader = new FileUploader('thumbnail', saveValue)
-  uploader.bind()
+$(function () {
+  $('#fileupload').fileupload({
+    dataType: 'json',
+    done: function (e, res) {
+      vue.imageUrl = res.result.data
+    }
+  })
 })

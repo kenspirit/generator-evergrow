@@ -9,8 +9,11 @@ var configDirs = fs.readdirSync(path.resolve(__dirname, '../config'))
 var configObj = {}
 
 configDirs.forEach(function(dirName) {
-  var config = require('../config/' + dirName + '/' + env)
-  configObj[dirName] = config
+  if (dirName.indexOf('.') !== 0) {
+    // skip hidden folder like .DS_Store in Mac
+    var config = require('../config/' + dirName + '/' + env)
+    configObj[dirName] = config
+  }
 })
 
 function getConfig() {

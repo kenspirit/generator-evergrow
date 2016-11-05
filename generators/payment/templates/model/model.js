@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-var paymentHistorySchema = new Schema({
+var paymentSchema = new Schema({
   userId: Schema.Types.ObjectId,
   userName: String,
   orderNo: String,
@@ -14,4 +14,4 @@ var paymentHistorySchema = new Schema({
   amountSettle: Number
 }, {strict: false, timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt'}})
 
-module.exports = mongoose.model('PaymentHistory', paymentHistorySchema)
+module.exports = mongoose.model('Payment', paymentSchema)

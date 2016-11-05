@@ -5,7 +5,11 @@
     <div class="panel panel-default">
       <div class="panel-heading" role="adduserthumbnail">
         Image
-        <span class="label label-danger pull-right">Add</span>
+        <span class="pull-right btn btn-xs btn-success fileinput-button">
+          <i class="glyphicon glyphicon-plus"></i>
+          <span>Select...</span>
+          <input id="fileupload" type="file" name="files[]" data-url="/file/upload">
+        </span>
       </div>
       <div class="panel-body">
         <a href="#" class="thumbnail" v-if="imageUrl">

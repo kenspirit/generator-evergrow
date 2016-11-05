@@ -4,6 +4,8 @@ module.exports = {
   db: {
     url: 'mongodb://localhost/app'
   },
+  sessionSecret: 'evergrow',
+  cookieName: 'evergrow',
   redis: {
     host: 'localhost',
     port: 6379
@@ -14,7 +16,7 @@ module.exports = {
   },
   site_static_host: '',
   upload: {
-    path: '/public/upload/'
+    path: './upload/'
   },
   email: {
     smtpOptions: {

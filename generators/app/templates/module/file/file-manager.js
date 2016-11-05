@@ -7,10 +7,15 @@ var writeFile = Promise.promisify(fs.writeFile)
 module.exports.uploadFile = uploadFile
 
 function uploadFile(fileName, file) {
-  var filePath = config.upload.path + fileName
+  var filePath = config.base.upload.path + fileName
+  var writeStream = fs.createWriteStream(filePath)
+  file.pipe(writeStream)
 
-  return writeFile(filePath, file)
-    .then(function() {
-      return filePath
+  return new Promise(function(resolve, reject) {
+    writeStream.on('close', function() {
+      resolve(filePath.replace('.', ''))
     })
+    writeStream.on('error', reject)
+    return true
+  })
 }
