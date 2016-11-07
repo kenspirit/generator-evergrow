@@ -1,12 +1,12 @@
 {
   "name": "generator-evergrow",
-  "version": "0.2.0",
-  "description": "Web application generator",
+  "version": "0.2.1",
+  "description": "This generator is time-saver when you want to quickly bootstrap a web application based on my opinionated code structure. It's based on Express 4, uses MongoDB for persistence and Redis for session storage.",
   "homepage": "",
   "author": {
     "name": "Ken Chen",
     "email": "chengusky@gmail.com",
-    "url": ""
+    "url": "http://www.thinkingincrowd.me"
   },
   "files": [
     "generators"
@@ -14,6 +14,9 @@
   "main": "generators/index.js",
   "keywords": [
     "Vue",
+    "Web Application Boilerplate",
+    "Express",
+    "Redis",
     "yeoman-generator"
   ],
   "dependencies": {
@@ -43,7 +46,10 @@
       "mocha": true
     }
   },
-  "repository": "kenspirit/generator-evergrow",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenspirit/generator-evergrow.git"
+  },
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
