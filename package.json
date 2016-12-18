@@ -1,6 +1,6 @@
 {
   "name": "generator-evergrow",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "This generator is time-saver when you want to quickly bootstrap a web application based on my opinionated code structure. It's based on Express 4, uses MongoDB for persistence and Redis for session storage.",
   "homepage": "",
   "author": {
@@ -13,11 +13,11 @@
   ],
   "main": "generators/index.js",
   "keywords": [
+    "yeoman-generator",
     "Vue",
     "Web Application Boilerplate",
     "Express",
-    "Redis",
-    "yeoman-generator"
+    "Redis"
   ],
   "dependencies": {
     "chalk": "^1.0.0",

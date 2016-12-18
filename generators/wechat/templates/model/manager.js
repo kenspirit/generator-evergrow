@@ -79,7 +79,7 @@ function getUserToken(openid, callback) {
 function setUserToken(openid, token, callback) {
   redisClient.set('access_token:' + openid, JSON.stringify(token))
    .then(function(userToken) {
-     callback(null, userToken)
+     callback(null, token)
      return null
    })
    .catch(callback)
@@ -102,7 +102,7 @@ function getGlobalToken(callback) {
 function setGlobalToken(token, callback) {
   redisClient.set('global_access_token', JSON.stringify(token))
    .then(function(globalToken) {
-     callback(null, globalToken)
+     callback(null, token)
      return null
    })
    .catch(callback)
@@ -111,7 +111,7 @@ function setGlobalToken(token, callback) {
 function getTicket(type, callback) {
  redisClient.get('weixin_jsticket')
    .then(function(ticket) {
-     callback(null, ticket)
+     callback(null, JSON.parse(ticket))
      return null
    })
    .catch(callback)
@@ -120,7 +120,7 @@ function getTicket(type, callback) {
 function saveTicket(type, _ticketToken, callback) {
  redisClient.set('weixin_jsticket', JSON.stringify(_ticketToken))
    .then(function(ticket) {
-     callback(null, ticket)
+     callback(null, _ticketToken)
      return null
    })
    .catch(callback)

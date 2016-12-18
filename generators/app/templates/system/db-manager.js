@@ -73,7 +73,9 @@ function executeQuery(model, queryRequest) {
 
 function getQueryCriteria(criteria) {
   return _.reduce(criteria, function(query, fieldValue, fieldName) {
-    if (!fieldValue || ['sort', 'direction', 'limit', 'page'].indexOf(fieldName) > -1) {
+    if (fieldValue === null || fieldValue === undefined ||
+        (typeof fieldValue === 'string' && fieldValue.length === 0) ||
+        ['sort', 'direction', 'limit', 'page'].indexOf(fieldName) > -1) {
       return query
     }
 

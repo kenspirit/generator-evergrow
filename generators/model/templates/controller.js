@@ -2,13 +2,15 @@ var <%= modulename %>Manager = require('./<%= modulenameLowerCase %>-manager')
 var buildApiResponse = require('../../system/util').buildApiResponse
 var logger = require('../../system/log-manager')
 
-module.exports.list<%= modulename %>Page = list<%= modulename %>Page
-module.exports.load<%= modulename %>Page = load<%= modulename %>Page
-module.exports.list<%= modulename %> = list<%= modulename %>
-module.exports.load<%= modulename %> = load<%= modulename %>
-module.exports.create<%= modulename %> = create<%= modulename %>
-module.exports.update<%= modulename %> = update<%= modulename %>
-module.exports.remove<%= modulename %> = remove<%= modulename %>
+module.exports = {
+  list<%= modulename %>Page: list<%= modulename %>Page,
+  load<%= modulename %>Page: load<%= modulename %>Page,
+  list<%= modulename %>: list<%= modulename %>,
+  load<%= modulename %>: load<%= modulename %>,
+  create<%= modulename %>: create<%= modulename %>,
+  update<%= modulename %>: update<%= modulename %>,
+  remove<%= modulename %>: remove<%= modulename %>
+}
 
 function list<%= modulename %>Page(req, res, next) {
   res.render('<%= modulenameLowerCase %>/<%= modulenameLowerCase %>List')

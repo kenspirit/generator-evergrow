@@ -23,7 +23,7 @@ yo evergrow
 After it completes, perform below two steps before running the application:  
 
 1. Duplicate file `config/base/sample.js` and rename to `config/base/development.js`.  Change any option you need to match your MongoDB, Redis URL, etc.  
-2. Type `npm install` or use Yarn as you like to install the dependencies
+2. Type `npm install` and it knows how to install all the dependencies.  
 
 After all dependent packages are installed, you can start the application by `node index.js`.  You can see the home page immediately by accessing the application through URL `http://localhost:3000` (assuming you have not changed port in config).
 
