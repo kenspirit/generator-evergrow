@@ -18,7 +18,7 @@ function initDB() {
 }
 
 function initSchema() {
-  return globPromise(path.resolve(__dirname, './module/**/*-model\.js'), {})
+  return globPromise(path.resolve(__dirname, '../module/**/*-model\.js'), {})
     .then(function(files) {
       files.forEach((file) => {
         var modelFile = path.relative(__dirname, file)
