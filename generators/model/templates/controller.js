@@ -25,7 +25,7 @@ function load<%= modulename %>Page(req, res, next) {
 function list<%= modulename %>(req, res, next) {
   <%= modulename %>Manager.list(req.query)
     .then(function(entities) {
-      res.json(buildApiResponse(entities))
+      return res.json(buildApiResponse(entities))
     })
     .catch(next)
 }
@@ -33,7 +33,7 @@ function list<%= modulename %>(req, res, next) {
 function load<%= modulename %>(req, res, next) {
   <%= modulename %>Manager.load(req.params.id)
     .then(function(entity) {
-      res.json(buildApiResponse(entity))
+      return res.json(buildApiResponse(entity))
     })
     .catch(next)
 }
@@ -43,7 +43,7 @@ function create<%= modulename %>(req, res, next) {
 
   <%= modulename %>Manager.create(requestEntity)
     .then(function(createdEntity) {
-      res.json(buildApiResponse(createdEntity))
+      return res.json(buildApiResponse(createdEntity))
     })
     .catch(next)
 }
@@ -54,7 +54,7 @@ function update<%= modulename %>(req, res, next) {
 
   <%= modulename %>Manager.update(requestEntity)
     .then(function(updatedEntity) {
-      res.json(buildApiResponse(updatedEntity))
+      return res.json(buildApiResponse(updatedEntity))
     })
     .catch(next)
 }
@@ -62,7 +62,7 @@ function update<%= modulename %>(req, res, next) {
 function remove<%= modulename %>(req, res, next) {
   <%= modulename %>Manager.remove(req.params.id)
     .then(function() {
-      res.json(buildApiResponse(true))
+      return res.json(buildApiResponse(true))
     })
     .catch(next)
 }
