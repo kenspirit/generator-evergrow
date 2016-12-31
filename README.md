@@ -14,7 +14,7 @@ npm install -g generator-evergrow
 
 ### Web Application Bootstrap
 
-Then generate your new web application in your application folder through below command.  It will prompt you to provide the project name and git url:  
+Then create a new folder which serves as your new web application folder.  Generate your new web application in that folder through below command.  It will prompt you to provide the project name and git url:  
 
 ```bash
 yo evergrow
