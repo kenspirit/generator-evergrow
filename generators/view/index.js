@@ -6,7 +6,7 @@ var pluralize = require('pluralize')
 var _ = require('lodash')
 
 module.exports = yeoman.Base.extend({
-  constructor: require('../../common/moduleConstructor').ModuleConstructor,
+  constructor: require('../common/moduleConstructor').ModuleConstructor,
   writing: {
     view: function() {
       var that = this
