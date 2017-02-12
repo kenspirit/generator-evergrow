@@ -1,5 +1,7 @@
 var <%= modulename %>Manager = require('./<%= modulenameLowerCase %>-manager')
 var buildApiResponse = require('../../system/util').buildApiResponse
+var parseRequestParams = require('../../system/util').parseRequestParams
+var parseResultForTable = require('../../system/util').parseResultForTable
 var logger = require('../../system/log-manager')
 
 module.exports = {
@@ -23,9 +25,10 @@ function load<%= modulename %>Page(req, res, next) {
 }
 
 function list<%= modulename %>(req, res, next) {
-  <%= modulename %>Manager.list(req.query)
+  var params = parseRequestParams(req)
+  <%= modulename %>Manager.list(params)
     .then(function(entities) {
-      return res.json(buildApiResponse(entities))
+      return res.json(parseResultForTable(entities))
     })
     .catch(next)
 }

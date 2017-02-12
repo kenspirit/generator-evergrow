@@ -32,11 +32,11 @@ module.exports.routes = [
     action: <%= modulename %>Controller.list<%= modulename %>,
     validators: {
       query: joi.object().keys({
-        sort: joi.string().valid('createdAt', 'updatedAt'),
-        direction: joi.string().valid('desc', 'asc').default('desc'),
+        search: joi.string().allow(''),
+        order: joi.string().valid('desc', 'asc').default('asc'),
         limit: joi.number().integer().max(100).default(10),
-        page: joi.number().integer()
-      }).with('sort', 'direction')
+        offset: joi.number().integer()
+      })
     }
   },
   {

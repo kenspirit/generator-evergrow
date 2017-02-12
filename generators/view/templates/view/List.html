@@ -1,56 +1,50 @@
-<div id="<%= modulenameLowerCase %>List" v-cloak>
-<div class="col-sm-12" style="margin-bottom: 10px">
-  <div class="pull-right">
-    <button class="btn btn-default" v-on:click="create<%= modulename %>">Create</button>
-  </div>
-</div>
-<div class="col-sm-12">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th style="width: 60px">创建时间</th>
-        <th style="width: 60px">创建用户</th>
-        <th style="width: 60px">更新时间</th>
-        <th style="width: 60px">更新用户</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="<%= modulenameLowerCase %> in paging.<%= modulenameLowerCase %>.data">
-        <td>{{ renderSystemTime(<%= modulenameLowerCase %>.createdAt) }}</td>
-        <td>{{ <%= modulenameLowerCase %>.createdUser }}</td>
-        <td>{{ renderSystemTime(<%= modulenameLowerCase %>.updatedAt) }}</td>
-        <td>{{ <%= modulenameLowerCase %>.updatedUser }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- Pagination Start -->
-  <div class="pull-left">
-    <span>Showing {{paging.<%= modulenameLowerCase %>.startRow}} to {{paging.<%= modulenameLowerCase %>.endRow}} of {{paging.<%= modulenameLowerCase %>.totalCount}} rows</span>
-    <span class="page-list">
-      <span class="btn-group dropup">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <span class="page-size">{{paging.<%= modulenameLowerCase %>.recordPerPage}}</span> 
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <li v-for="n in recordPerPageOptions" v-on:click="changeRecordPerPage(paging.<%= modulenameLowerCase %>, get<%= modulenamePluralized %>, n)"><a href="#">{{n == 0 ? 'All' : n}}</a></li>
-        </ul>
-      </span> rows per page
-    </span>
-  </div>
-  <div v-if="paging.<%= modulenameLowerCase %>.totalPages > 1" class="pull-right btn-toolbar" role="toolbar" aria-label="Pagination">
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-default" aria-label="Previous" v-on:click="page($event, get<%= modulenamePluralized %>, paging.<%= modulenameLowerCase %>, paging.<%= modulenameLowerCase %>.currentPage - 1)">&lt;</button>
-      <button type="button" class="btn btn-default {{isActivePage(paging.<%= modulenameLowerCase %>, n)}}" data-toggle="button" aria-pressed="true" v-for="n in paging.<%= modulenameLowerCase %>.pageButtons" aria-label="{{pageLabel(paging.<%= modulenameLowerCase %>, n)}}" v-on:click="page($event, get<%= modulenamePluralized %>, paging.<%= modulenameLowerCase %>, n)">{{pageLabel(paging.<%= modulenameLowerCase %>, n)}}</button>
-      <button type="button" class="btn btn-default" aria-label="Previous" v-on:click="page($event, get<%= modulenamePluralized %>, paging.<%= modulenameLowerCase %>, paging.<%= modulenameLowerCase %>.currentPage + 1)">&gt;</button>
+<div id="<%= modulenameLowerCase %>List">
+  <h2><%= modulename %> List</h2>
+  <div class="col-sm-12" style="margin-bottom: 10px">
+    <div class="pull-left">
+      <button class="btn btn-primary" v-on:click="create<%= modulename %>">Create</button>
     </div>
   </div>
-  <!-- Pagination End -->
-</div>
+  <div class="col-sm-12" id="<%= modulenameLowerCase %>">
+    <table
+      id="<%= modulenameLowerCase %>Table" :data-url="url"
+      data-page-size="10"
+      data-page-list="{{ pageList }}"
+      data-striped="true"
+      data-classes="table table-hover table-condensed"
+      data-show-columns="true"
+      data-search="true"
+      data-side-pagination="server"
+      data-pagination-v-align="both"
+      data-pagination="true"
+      data-show-toggle="true"
+      data-locale="en-US">
+    </table>
+
+    <div class="modal fade" id="<%= modulenameLowerCase %>Dialog" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Modal title for <%= modulename %></h4>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="<%= modulenameLowerCase %>Id"/>
+            <h2>Construct the form body fields here.</h2>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="save<%= modulename %>()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <%%
   block('moduleScript').append(
     Loader('/public/build/<%= modulenameLowerCase %>List.min.js')
+      .js('/public/js/common/common.js')
       .js('/public/js/<%= modulenameLowerCase %>/<%= modulenameLowerCase %>List.js')
       .done(assets, config.site_static_host)
   )

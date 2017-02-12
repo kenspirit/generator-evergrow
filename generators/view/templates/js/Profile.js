@@ -25,7 +25,8 @@ $(document).ready(function () {
             that.errorMsg =  ''
           })
           .fail(handleErrorResponse.bind(this))
-      }
+      },
+      renderSystemTime: timeFormatter
     }
   })
 

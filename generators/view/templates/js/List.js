@@ -1,33 +1,98 @@
-var options = {
+var columns = [{
+  field: 'createdAt',
+  title: 'Created At',
+  width: 60,
+  align: 'center',
+  halign: 'center',
+  formatter: timeFormatter
+}, {
+  field: 'createdUser',
+  title: 'Created By',
+  width: 60,
+  align: 'center',
+  halign: 'center'
+}, {
+  field: 'updatedAt',
+  title: 'Updated At',
+  width: 60,
+  align: 'center',
+  halign: 'center',
+  formatter: timeFormatter
+}, {
+  field: 'updatedUser',
+  title: 'Updated By',
+  width: 60,
+  align: 'center',
+  halign: 'center'
+}, {
+  field: 'deleted',
+  title: 'Deleted?',
+  width: 60,
+  align: 'center',
+  halign: 'center',
+  formatter: function(value, row, index) {
+    return value === true ? 'Deleted' : ''
+  }
+}, {
+  field: '',
+  title: '',
+  width: 60,
+  align: 'center',
+  halign: 'center',
+  events: {
+    'click .edit': (e, value, row, index, activeBtn) => {
+      $('#<%= modulenameLowerCase %>Id').val(row._id)
+      $('#<%= modulenameLowerCase %>Dialog').modal('toggle')
+    }
+  },
+  formatter: function(value, row, index) {
+    return `<div class="btn-group dropdown">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li class="edit"><a href="#">Edit</a></li>
+      </ul>
+    </div>`
+  }
+}]
+
+var vue = new Vue({
   el: '#<%= modulenameLowerCase %>List',
   data: {
-    pageTitle: '<%= modulename %> List',
+    url: '/<%= modulenameLowerCase %>',
+    pageList: [10, 20, 30],
     errorMsg: ''
   },
+  ready: function() {
+    $('#<%= modulenameLowerCase %>Table').bootstrapTable({
+      columns: columns,
+      queryParams: (p) => {
+        for (var v in self.params) {
+          p[v] = self.params[v]
+        }
+
+        return p
+      }
+    })
+  },
   methods: {
-    renderSystemTime: function(updatedAt) {
-      return moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')
-    },
-    get<%= modulenamePluralized %>: function(page, limit) {
-      var that = this
-
-      $.get('/<%= modulenameLowerCase %>?page=' + page + '&limit=' + limit)
-        .done(function(result) {
-          vue.paging.<%= modulenameLowerCase %>.currentPage = page
-          vue.paging.<%= modulenameLowerCase %>.data = result.data.records
-          vue.paging.<%= modulenameLowerCase %>.totalCount = result.data.totalCount
-
-          that.initPagingInfo(vue.paging.<%= modulenameLowerCase %>)
-        })
-        .fail(handleErrorResponse.bind(this))
-    },
     create<%= modulename %>: function() {
-      location.href = '/<%= modulenameLowerCase %>/page/load/'
+      window.location = '/<%= modulenameLowerCase %>/page/load'
+    },
+    save<%= modulename %>: function() {
+      var id = $('#<%= modulenameLowerCase %>Id').val()
+
+      var params = {
+        method: 'post',
+        url: '/<%= modulenameLowerCase %>/' + id,
+        data: {}
+      }
+
+      ajaxRequest(params, (data) => {
+        $('#<%= modulenameLowerCase %>Table').bootstrapTable('refresh')
+        $('#<%= modulenameLowerCase %>Dialog').modal('toggle')
+      })
     }
   }
-}
-
-mergeVuePagingOptions(options, ['<%= modulenameLowerCase %>'])
-
-var vue = new Vue(options)
-vue.get<%= modulenamePluralized %>(1, vue.recordPerPageOptions[0])
+});
