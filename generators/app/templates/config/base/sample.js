@@ -16,7 +16,7 @@ module.exports = {
   },
   site_static_host: '',
   upload: {
-    path: './upload/'
+    path: './public/upload/'
   },
   email: {
     smtpOptions: {
