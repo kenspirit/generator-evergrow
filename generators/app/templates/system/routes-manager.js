@@ -1,3 +1,4 @@
+var RouteRepository = require('./routes-repository')
 var buildApiResponse = require('./util').buildApiResponse
 var logger = require('./log-manager')
 var config = require('./config-manager').getConfig()
@@ -27,6 +28,13 @@ function configureRoutes(expressRouter, moduleRoutes) {
     })
 
     middlewares = middlewares.concat(route.action)
+
+    RouteRepository.setRoutes(moduleRoutes.basePath, {
+      baseUrl: moduleRoutes.basePath,
+      path: route.path,
+      desc: route.summary,
+      method: route.method
+    })
 
     expressRouter[route.method](route.path, middlewares)
   })
