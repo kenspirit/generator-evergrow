@@ -115,10 +115,6 @@ module.exports = yeoman.Base.extend({
         this.templatePath('view/index.html'),
         this.destinationPath('view/index.html')
       )
-      this.fs.copy(
-        this.templatePath('view/indexAdmin.html'),
-        this.destinationPath('view/indexAdmin.html')
-      )
     },
     auth: function() {
       // User Module
