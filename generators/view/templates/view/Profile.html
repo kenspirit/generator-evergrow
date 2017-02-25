@@ -1,5 +1,17 @@
+<ol class="breadcrumb">
+  <li><a href="/<%= modulenameLowerCase %>/page/list"><%= modulename %> List</a></li>
+  <li class="active">Profile</li>
+</ol>
 <div id="<%= modulenameLowerCase %>Profile">
   <input type="hidden" id="<%= modulenameLowerCase %>Id" value="<%= typeof(id) !== 'undefined' ? id : '' %>"/>
+  <div class="alert alert-info" role="alert" v-if="successMsg">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{successMsg}}
+  </div>
+  <div class="alert alert-danger" role="alert" v-if="errorMsg">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{errorMsg}}
+  </div>
 
   <div class="col-md-4 col-md-offset-1">
     <div class="panel panel-default">

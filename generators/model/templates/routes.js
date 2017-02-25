@@ -1,5 +1,6 @@
 var joi = require('joi')
 var <%= modulename %>Controller = require('./<%= modulenameLowerCase %>-controller')
+var AuthController = require('../auth/auth-controller')
 
 module.exports.basePath = '/<%= modulenameLowerCase %>'
 module.exports.routes = [
@@ -8,21 +9,21 @@ module.exports.routes = [
     path: '/page/load/:id',
     summary: 'Load <%= modulename %> profile page',
     description: '',
-    action: <%= modulename %>Controller.load<%= modulename %>Page
+    action: [AuthController.setUserToResources, <%= modulename %>Controller.load<%= modulename %>Page]
   },
   {
     method: 'get',
     path: '/page/load',
     summary: '<%= modulename %> Create page',
     description: '',
-    action: <%= modulename %>Controller.load<%= modulename %>Page
+    action: [AuthController.ensureAuthenticated, <%= modulename %>Controller.load<%= modulename %>Page]
   },
   {
     method: 'get',
     path: '/page/list',
     summary: '<%= modulename %> list page',
     description: '',
-    action: <%= modulename %>Controller.list<%= modulename %>Page
+    action: [AuthController.setUserToResources, <%= modulename %>Controller.list<%= modulename %>Page]
   },
   {
     method: 'get',

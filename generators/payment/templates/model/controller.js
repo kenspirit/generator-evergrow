@@ -85,9 +85,9 @@ function getPaymentStatus(req, res, next) {
 }
 
 function successPage(req, res, next) {
-  res.render('web/paymentSuccess', {current_user: req.user})
+  res.render('web/paymentSuccess', {currentUser: req.user})
 }
 
 function cancelPage(req, res, next) {
-  res.render('web/paymentCancel', {current_user: req.user})
+  res.render('web/paymentCancel', {currentUser: req.user})
 }

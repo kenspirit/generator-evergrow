@@ -1,6 +1,6 @@
 {
   "name": "generator-evergrow",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "This generator is time-saver when you want to quickly bootstrap a web application based on my opinionated code structure. It's based on Express 4, uses MongoDB for persistence and Redis for session storage.",
   "homepage": "",
   "author": {
