@@ -1,14 +1,11 @@
 var _ = require('lodash')
 var Promise = require('bluebird')
-var uuid = require('node-uuid')
 var moment = require('moment')
 var passport = require('passport')
 var request = require('request')
 var through2 = require('through2')
 
 var WechatManager = require('./wechat-manager')
-var LiveshowManager = require('../liveshow/liveshow-manager')
-var LiveshowMsgManager = require('../liveshowmsg/liveshowmsg-manager')
 var QnManager = require('../../system/qn-manager')
 var buildApiResponse = require('../../system/util').buildApiResponse
 

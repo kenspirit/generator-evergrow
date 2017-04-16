@@ -1,7 +1,3 @@
 node_modules
-!config/**/sample.js
-config/**/development.js
-config/**/production.js
-config/**/test.js
 **/*.pem
 public/upload/*

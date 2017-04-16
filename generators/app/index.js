@@ -79,6 +79,11 @@ module.exports = yeoman.Base.extend({
     },
     server: function() {
       this.fs.copy(
+        this.templatePath('Makefile'),
+        this.destinationPath('Makefile')
+      )
+
+      this.fs.copy(
         this.templatePath('index.js'),
         this.destinationPath('index.js')
       )

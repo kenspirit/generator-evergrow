@@ -1,6 +1,6 @@
 var path = require('path')
 var Busboy = require('busboy')
-var uuid = require('node-uuid')
+var uuid = require('uuid')
 var uploadFile = require('./file-manager').uploadFile
 var buildApiResponse = require('../../system/util').buildApiResponse
 var logger = require('../../system/log-manager')

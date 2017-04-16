@@ -1,5 +1,5 @@
 var Busboy = require('busboy')
-var uuid = require('node-uuid')
+var uuid = require('uuid')
 var path = require('path')
 var qiniu = require('qiniu')
 var Promise = require('bluebird')
