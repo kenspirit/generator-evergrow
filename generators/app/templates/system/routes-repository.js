@@ -14,7 +14,7 @@ module.exports.setRoutes = setRoutes
 module.exports.getRouteDescription = getRouteDescription
 
 function setRoutes(basePath, route) {
-  ALL_ROUTERS[basePath] = ALL_ROUTERS[basePath] || {get: [], post: []}
+  ALL_ROUTERS[basePath] = ALL_ROUTERS[basePath] || {get: [], post: [], delete: []}
   ALL_ROUTERS[basePath][route.method].push(route)
 }
 
