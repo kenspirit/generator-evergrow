@@ -10,11 +10,16 @@ var globPromise = Promise.promisify(glob)
 mongoose.Promise = Promise
 
 module.exports.initDB = initDB
+module.exports.disconnectDB = disconnectDB
 module.exports.executeQuery = executeQuery
 
 function initDB() {
   return mongoose.connect(config.base.db.url)
     .then(initSchema)
+}
+
+function disconnectDB() {
+  return mongoose.disconnect()
 }
 
 function initSchema() {

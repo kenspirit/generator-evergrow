@@ -27,6 +27,25 @@ module.exports = yeoman.Base.extend({
           }
         )
       })
+    },
+    test: function() {
+      var testTemplates =
+        ['manager.js']
+      var that = this
+
+      testTemplates.forEach(function(template) {
+        that.fs.copyTpl(
+          that.templatePath(`test/${template}`),
+          that.destinationPath(
+            'test/int/' + that.modulenameLowerCase + '/' + template
+          ),
+          {
+            modulename: that.modulename,
+            modulenameLowerCase: that.modulenameLowerCase,
+            modulenamePluralized: that.modulenamePluralized
+          }
+        )
+      })
     }
   }
 })
