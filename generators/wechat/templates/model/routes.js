@@ -1,4 +1,3 @@
-var joi = require('joi')
 var WechatController = require('./wechat-controller')
 
 module.exports.basePath = '/wechat'
@@ -16,12 +15,5 @@ module.exports.routes = [
     summary: '',
     description: '',
     action: WechatController.wechatMsg
-  },
-  {
-    method: 'get',
-    path: '/demo',
-    summary: 'Wechat Demo Page',
-    description: '',
-    action: [WechatController.wechatAuth(), WechatController.demo]
   }
 ]

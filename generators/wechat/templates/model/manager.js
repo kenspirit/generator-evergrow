@@ -1,7 +1,5 @@
 var _ = require('lodash')
 var Promise = require('bluebird')
-var passport = require('passport')
-var WechatStrategy = require('passport-wechat')
 var wechat = require('wechat')
 var WechatAPI = require('wechat-api')
 
@@ -18,7 +16,14 @@ module.exports = {
 }
 
 function find(openid) {
-  return UserManager.findOne({'wechat.openid': openid})
+  return UserManager.list({'wechat.openid': openid})
+    .then(function(result) {
+      if (result.records.length > 0) {
+        return result.records[0]
+      }
+
+      return null
+    })
 }
 
 function createOrUpdate(userInfo) {
@@ -39,7 +44,7 @@ function createOrUpdate(userInfo) {
 }
 
 /**
- * All below code are for initializing wechat
+ * Below code is for initializing wechat
  */
 
 var appToken = config.wechat.appToken
@@ -50,22 +55,6 @@ var wechatConfig = {
   token: appToken,
   appid: appid
 }
-
-passport.use(new WechatStrategy({
-  appID: appid,
-  appSecret: appsecret,
-  scope: 'snsapi_userinfo',
-  passReqToCallback: true,
-  getToken: getUserToken,
-  saveToken: setUserToken
-}, function(req, accessToken, refreshToken, profile, done) {
-  return createOrUpdate(profile)
-    .then(function(user) {
-      done(null, user.toObject())
-      return null
-    })
-    .catch(done)
-}))
 
 function getUserToken(openid, callback) {
   redisClient.get('access_token:' + openid)
